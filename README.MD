@@ -97,3 +97,7 @@ Time: 25 ms, Memory: 4.00 MB
 
 OK (4 tests, 4 assertions)
 ```
+
+## Conclusion
+
+Voir la branche *tests-php-unit* pour le code source.
