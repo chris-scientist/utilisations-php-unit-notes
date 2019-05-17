@@ -7,3 +7,15 @@ class People {
 	}
 
 }
+
+class CheckRights {
+
+	public static function haveRights($age) {
+		return People::isFrenchAdult($age) ?
+			'Welcome on adult area'
+		:
+			'Welcome on children area'
+		;
+	}
+
+}

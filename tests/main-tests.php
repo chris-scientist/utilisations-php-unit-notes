@@ -6,32 +6,41 @@ use PHPUnit\Framework\TestCase;
 
 class PeopleTest extends TestCase {
 
-	public function test25Years() {
-		$this->assertEquals(
-			People::isFrenchAdult(25),
-			true
-		);
+	/**
+	 * @dataProvider dataOnPeople
+	 */
+	public function testIsFrenchAdult($inputAge, $result) {
+		$this->assertSame(People::isFrenchAdult($inputAge), $result);
 	}
 
-	public function test18Years() {
-		$this->assertEquals(
-			People::isFrenchAdult(18),
-			true
-		);
+	public function dataOnPeople() {
+		return [
+			'1 years' => [1, false],
+			'17 years' => [17, false],
+			'18 years' => [18, true],
+			'25 years' => [25, true]
+		];
 	}
 
-	public function test17Years() {
-		$this->assertEquals(
-			People::isFrenchAdult(17),
-			false
-		);
-	}
+}
 
-	public function test1Years() {
-		$this->assertEquals(
-			People::isFrenchAdult(1),
-			false
-		);
+class CheckRightsTest extends TestCase {
+
+	/**
+	 * @dataProvider dataForCheckRights
+	 */
+	public function testHaveRights($inputAge, $result) {
+		$this->assertSame(CheckRights::haveRights($inputAge), $result);
+	}
+	
+	public function dataForCheckRights() {
+		$childrenStr = 'Welcome on children area';
+		$adultStr = 'Welcome on adult area';
+		return [
+			'10 years' => [10, $childrenStr],
+			'18 years' => [18, $adultStr],
+			'25 years' => [25, $adultStr]
+		];
 	}
 
 }
