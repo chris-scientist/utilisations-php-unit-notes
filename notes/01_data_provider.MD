@@ -1,46 +1,11 @@
 
 # Notes sur l'utilisation de PHP Unit
 
-v0.1
+[Sommaire](../README.MD)
 
-## Pré-requis
+## Fournisseur de données (DataProvider)
 
-**Être sous macOS** !
-
-## Installation de l'environnement
-
-### Installer Composer
-
-[Voir documentation](https://getcomposer.org/download/)
-
-### Installer PHP Unit via Composer
-
-```
-composer.phar require --dev phpunit/phpunit
-```
-
-Puis contrôler la version de PHP Unit
-
-```
-./vendor/bin/phpunit --version
-```
-
-## Créer le code et les tests
-
-Dans *src/main.php* :
-```
-<?php
-
-class People {
-
-	public static function isFrenchAdult($age) {
-		return ( $age >= 18 ) ;
-	}
-
-}
-```
-
-Dans *tests/main-tests.php* :
+Voici les tests que nous avons écrit à l'origine :
 ```
 <?php
 
@@ -81,6 +46,35 @@ class PeopleTest extends TestCase {
 }
 ```
 
+Ces derniers tests peuvent être réduit en utilisant un **fournisseur de données**, comme ceci :
+```
+<?php
+
+require __DIR__ . '/../src/main.php';
+
+use PHPUnit\Framework\TestCase;
+
+class PeopleTest extends TestCase {
+
+	/**
+	 * @dataProvider dataOnPeople
+	 */
+	public function testIsFrenchAdult($inputAge, $result) {
+		$this->assertSame(People::isFrenchAdult($inputAge), $result);
+	}
+
+	public function dataOnPeople() {
+		return [
+			'1 years' => [1, false],
+			'17 years' => [17, false],
+			'18 years' => [18, true],
+			'25 years' => [25, true]
+		];
+	}
+
+}
+```
+
 ## Exécuter les tests
 
 ```
@@ -98,10 +92,3 @@ Time: 25 ms, Memory: 4.00 MB
 OK (4 tests, 4 assertions)
 ```
 
-## Conclusion
-
-Voir la branche *tests-php-unit* pour le code source.
-
-Pour aller plus loin dans les tests :
-* [Fournisseur de données](notes/01_data_provider.MD)
-* [Fichier unique avec plusieurs classes](notes/02_unique_file.MD)
